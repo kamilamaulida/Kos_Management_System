@@ -1,0 +1,68 @@
+Project kos_management {
+  database_type: 'PostgreSQL'
+  Note: 'ERD Kos Management System'
+}
+
+Table kamar {
+  id_kamar serial [pk]
+  nomor_kamar varchar(10) [not null, unique]
+  tipe varchar(30) [not null]
+  harga_sewa numeric(12,2) [not null]
+  status varchar(20) [not null, note: 'tersedia, dihuni, perbaikan']
+}
+
+Table penghuni {
+  id_penghuni serial [pk]
+  nama varchar(100) [not null]
+  no_telepon varchar(15) [not null]
+  email varchar(100) [unique]
+  alamat_asal text
+  status varchar(20) [not null, note: 'aktif, keluar']
+}
+
+Table fasilitas {
+  id_fasilitas serial [pk]
+  nama_fasilitas varchar(50) [not null, unique]
+}
+
+Table kamar_fasilitas {
+  id_kamar int [not null, pk]
+  id_fasilitas int [not null, pk]
+}
+
+Table sewa {
+  id_sewa serial [pk]
+  id_penghuni int [not null]
+  id_kamar int [not null]
+  tanggal_masuk date [not null]
+  tanggal_keluar date
+  status varchar(20) [not null, note: 'aktif, pindah, selesai']
+}
+
+Table pembayaran {
+  id_pembayaran serial [pk]
+  id_sewa int [not null]
+  periode date [not null, note: 'Tanggal 1 bulan pembayaran']
+  jumlah numeric(12,2) [not null]
+  tanggal_bayar date
+  metode varchar(20)
+  status varchar(20) [not null, note: 'belum_bayar, lunas']
+}
+
+Table keluhan {
+  id_keluhan serial [pk]
+  id_penghuni int [not null]
+  id_kamar int [not null]
+  judul varchar(150) [not null]
+  deskripsi text
+  tanggal_lapor date [not null]
+  status varchar(20) [not null, note: 'diajukan, diproses, selesai']
+}
+
+Ref: penghuni.id_penghuni < sewa.id_penghuni
+Ref: kamar.id_kamar < sewa.id_kamar
+Ref: sewa.id_sewa < pembayaran.id_sewa
+Ref: penghuni.id_penghuni < keluhan.id_penghuni
+Ref: kamar.id_kamar < keluhan.id_kamar
+Ref: kamar.id_kamar < kamar_fasilitas.id_kamar
+Ref: fasilitas.id_fasilitas < kamar_fasilitas.id_fasilitas
