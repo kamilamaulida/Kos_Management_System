@@ -29,6 +29,8 @@ Database menggunakan 7 tabel:
 6. `pembayaran`
 7. `keluhan`
 
+![ERD Kos Management System](ERD_Kos_Management_System.png)
+
 File `schema.dbml` dapat ditempel ke https://dbdiagram.io untuk membuat ERD. File `database.sql` berisi SQL awal proyekmu beserta contoh data. Jalankan di database kosong karena skrip tersebut menghapus tabel dengan nama yang sama sebelum membuat ulang.
 
 ## Persiapan database
